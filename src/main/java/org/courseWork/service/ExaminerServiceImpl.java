@@ -1,4 +1,4 @@
-package org.example.service;
+package org.courseWork.service;
 
 
 public class ExaminerServiceImpl {
