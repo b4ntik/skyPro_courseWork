@@ -7,8 +7,7 @@ public class Question {
     private String answer;
 
     public Question() {
-//        this.question = question;
-//        this.answer = answer;
+
     }
 
     //сеттер для вопроса
@@ -50,6 +49,4 @@ public class Question {
         return Objects.hash(question, answer);
     }
 
-    public void addQuestion(Question question) {
-    }
 }

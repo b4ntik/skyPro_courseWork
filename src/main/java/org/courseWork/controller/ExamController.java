@@ -2,10 +2,7 @@ package org.courseWork.controller;
 
 import org.courseWork.model.error.ThereIsNotQuestionError;
 import org.courseWork.model.question.Question;
-import org.courseWork.service.ExaminerService;
-import org.courseWork.service.ExaminerServiceImpl;
-import org.courseWork.service.QuestionService;
-import org.courseWork.service.QuestionStorage;
+import org.courseWork.service.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,12 +17,12 @@ import java.util.List;
 public class ExamController {
     private final ExaminerService examinerService;
     private final ExaminerServiceImpl examineserviceImpl;
-    private final QuestionService questionService;
-    private final QuestionStorage questionStorage;
+    private final JavaQuestionService questionService;
+    private final ExaminerServiceImpl questionStorage;
 
-    public ExamController(ExaminerService examinerService, ExaminerServiceImpl examineserviceImpl, QuestionService questionService, QuestionStorage questionStorage) {
+    public ExamController(ExaminerService examinerService, ExaminerServiceImpl examinerServiceImpl, JavaQuestionService questionService, ExaminerServiceImpl questionStorage) {
         this.examinerService = examinerService;
-        this.examineserviceImpl = examineserviceImpl;
+        this.examineserviceImpl = examinerServiceImpl;
         this.questionService = questionService;
         this.questionStorage = questionStorage;
     }
@@ -52,7 +49,11 @@ public class ExamController {
         Question question = new Question();
         question.setQuestion(text);
         question.setAnswer(answer);
-        question.addQuestion(question);
+        questionStorage.addQuestion(question);
+
+    }
+    @GetMapping("exam/java/remove")
+    public void removeQuestions(@RequestParam String text){
 
     }
 }
