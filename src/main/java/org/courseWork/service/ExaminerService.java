@@ -12,7 +12,8 @@ public interface ExaminerService {
         return List.of();
     };
 
-    boolean checkCorrectAnswer();
+    boolean checkCorrectAnswer(String userAnswer);
 
     boolean equals(Question question);
+
 }

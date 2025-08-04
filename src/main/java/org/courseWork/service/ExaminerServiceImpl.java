@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ExaminerServiceImpl implements ExaminerService{
-    private Set<Question> questions = new HashSet<>();
+public class ExaminerServiceImpl implements ExaminerService {
+    Set<Question> questions = new HashSet<>();
     private Random random = new Random();
+    Question currentQuestion;
 
-    public ExaminerServiceImpl(){
+    public ExaminerServiceImpl() {
         this.questions = createTestQuestions();
     }
 
@@ -29,16 +30,15 @@ public class ExaminerServiceImpl implements ExaminerService{
         }
 
         int index = random.nextInt(questions.size());
-        int current = 0;
-        for (Question question : questions) {
-            if (current == index) {
-                return question;
-            }
-            current++;
+
+        Iterator<Question> iterator = questions.iterator();
+        for (int i = 0; i < index; i++) {
+            iterator.next();
         }
-        // Теоретически сюда не дойдём, но чтобы компилятор не ругался:
-        throw new ThereIsNotQuestionError();
+        currentQuestion = iterator.next();
+        return currentQuestion;
     }
+
 
     public void removeQuestion(Question question) {
 
@@ -48,13 +48,21 @@ public class ExaminerServiceImpl implements ExaminerService{
         questions.remove(question);
     }
 
-    public boolean findQuestion(Question question){
+    public boolean findQuestion(Question question) {
         return questions.contains(question);
     }
 
     @Override
-    public boolean checkCorrectAnswer() {
-        return false;
+    public boolean checkCorrectAnswer(String userAnswer) {
+        if (currentQuestion == null || userAnswer == null) {
+            return false;
+        }
+        return userAnswer.equalsIgnoreCase(currentQuestion.getAnswer());
+    }
+
+    @Override
+    public Collection<Question> getQuestions(int amount) {
+        return ExaminerService.super.getQuestions(amount);
     }
 
     @Override
@@ -62,11 +70,12 @@ public class ExaminerServiceImpl implements ExaminerService{
         return false;
     }
 
-    public Collection<Question> getCollectionsOfQuestions() {
-
-        return questions;
+    //очистка вопросов
+    public void clearQuestions() {
+        questions.clear();
     }
 
+    //тестовые вопросы
     public Set<Question> createTestQuestions() {
         Set<Question> questions = new HashSet<>();
         Question q1 = new Question();
@@ -79,6 +88,10 @@ public class ExaminerServiceImpl implements ExaminerService{
         q3.addQuestion("Кто написал 'Идиот'? (Фамилия автора)", "Достоевский");
         questions.add(q3);
 
+        return questions;
+    }
+
+    public Collection<Question> getCollectionsOfQuestions() {
         return questions;
     }
 }

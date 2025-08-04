@@ -10,20 +10,22 @@ public class Question {
 
     }
 
-    //сеттер для вопроса
+    //добавляем вопрос
     public void addQuestion(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
 
+    //меняем вопрос
     public void setQuestion(String question) {
         this.question = question;
     }
 
+    //меняем ответ
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-    
+
     public String getQuestion() {
         return question;
     }
@@ -32,6 +34,7 @@ public class Question {
         return answer;
     }
 
+    //получить рандомный вопрос
     public String getRandomQuestion() {
         return "";
     }
