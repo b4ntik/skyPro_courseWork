@@ -16,4 +16,5 @@ public interface ExaminerService {
 
     boolean equals(Question question);
 
+    Question getRandomQuestion(int amount);
 }

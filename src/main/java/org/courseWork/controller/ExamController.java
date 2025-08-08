@@ -3,6 +3,8 @@ package org.courseWork.controller;
 import org.courseWork.model.error.ThereIsNotQuestionError;
 import org.courseWork.model.question.Question;
 import org.courseWork.service.*;
+//import org.courseWork.service.ExaminerServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,9 @@ public class ExamController {
         this.questionStorage = questionStorage;
     }
 
+    @Autowired
+    private JavaQuestionService javaQuestionService;
+
     @GetMapping("/")
     public String home() {
         return "Welcome to SkyExaminer!";
@@ -34,14 +39,14 @@ public class ExamController {
 
     @GetMapping("exam/get/{amount}")
     public Collection<Question> getRandomQuestions(@PathVariable int amount) {
-        Collection<Question> allQuestions = questionStorage.getCollectionsOfQuestions();
+
+      Collection<Question> allQuestions = javaQuestionService.getCollectionsOfQuestions();
 
         if (allQuestions.size() < amount) {
-            throw new ThereIsNotQuestionError();
+           throw new ThereIsNotQuestionError();
         }
-        List<Question> questionsList = new ArrayList<>(allQuestions);
-        Collections.shuffle(questionsList);
-        return questionsList.subList(0, amount);
+
+        return javaQuestionService.getRandomQuestion(amount);
     }
 
     @GetMapping("exam/java/add")
@@ -49,7 +54,7 @@ public class ExamController {
         Question question = new Question();
         question.setQuestion(text);
         question.setAnswer(answer);
-        questionStorage.addQuestion(question);
+        questionService.addQuestion(question);
 
     }
     @GetMapping("exam/java/remove")

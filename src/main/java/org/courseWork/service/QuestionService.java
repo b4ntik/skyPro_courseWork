@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface QuestionService {
     default Question getRandomQuestion(){return null;};
-    Collection<Question> getCollectionOfQuestions = List.of();
+    //Collection<Question> getCollectionOfQuestions = List.of();
     boolean checkCorrectAnswer();
     boolean equals(Question question);
 }
