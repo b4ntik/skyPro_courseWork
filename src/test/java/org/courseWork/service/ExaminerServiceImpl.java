@@ -1,5 +1,6 @@
 package org.courseWork.service;
 
+import org.courseWork.model.error.ThereIsNotQuestionError;
 import org.courseWork.model.question.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,10 +36,16 @@ class ExaminerServiceImplTest {
         assertTrue(questions.stream().anyMatch(q -> q.getQuestion().equals("Кто написал 'Идиот'? (Фамилия автора)")));
     }
 
+@Test
+void testGetRandomQuestions_EmptyCollection(){
+        javaQuestionService.clearQuestions();
 
+        assertThrows(ThereIsNotQuestionError.class, () ->
+                examinerService.getRandomQuestion());
+}
     @Test
     void testGetCollectionsOfQuestions() {
-        Collection<Question> questions = javaQuestionService.getCollectionsOfQuestions();
+        Collection<Question> questions = javaQuestionService.getAllQuestions();
         assertEquals(3, questions.size());
     }
 }

@@ -12,9 +12,6 @@ public interface ExaminerService {
         return List.of();
     };
 
-    boolean checkCorrectAnswer(String userAnswer);
 
-    boolean equals(Question question);
 
-    Question getRandomQuestion(int amount);
 }

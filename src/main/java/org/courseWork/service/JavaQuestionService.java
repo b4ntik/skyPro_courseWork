@@ -6,11 +6,12 @@ import org.courseWork.model.question.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
     public class JavaQuestionService implements QuestionService{
     private Set<Question> questions = new HashSet<>();
-    private Random random = new Random();
+
     private Question question;
     private Question currentQuestion;
 
@@ -18,25 +19,6 @@ import java.util.*;
             this.questions = createTestQuestions();
         }
 
-        @Override
-        public Question getRandomQuestion() {
-            int index = random.nextInt(questions.size());
-            question = (Question) questions.toArray()[index];
-            return question;
-        }
-
-        @Override
-        public boolean checkCorrectAnswer() {
-
-            if (currentQuestion == null){
-                throw new ThereIsNotQuestionError();
-            }
-            //отлов багов
-            //System.out.println("Проверяем вопрос " + currentQuestion.getQuestion());
-            String correctAnswer = currentQuestion.getCorrectAnswer();
-            String userAnswer = currentQuestion.getUserAnswer();
-            return correctAnswer.equalsIgnoreCase(userAnswer);
-        }
 
         @Override
         public boolean equals(Question question) {
@@ -59,22 +41,14 @@ import java.util.*;
        //System.out.println("Вопрос добавлен");
     }
 
-    public List<Question> getRandomQuestion(int amount) {
+    public void removeQuestion(String questionForRemoving) {
 
-        if (questions == null || questions.isEmpty() || amount > questions.size()) {
+        if (questions == null) {
             throw new ThereIsNotQuestionError();
         }
-        List<Question> questionList = new ArrayList<>(questions);
-        Collections.shuffle(questionList);
-
-        return questionList.subList(0, amount);
-    }
-    public void removeQuestion(Question question) {
-
-        if (!questions.contains(question)) {
-            throw new ThereIsNotQuestionError();
-        }
-        questions.remove(question);
+        questions = questions.stream()
+                .filter(q -> !q.getQuestion().contains(questionForRemoving))
+                .collect(Collectors.toSet());
     }
 
     public boolean findQuestion(Question question) {
@@ -102,10 +76,6 @@ import java.util.*;
         q3.addQuestion("Кто написал 'Идиот'? (Фамилия автора)", "Достоевский");
         questions.add(q3);
 
-        return questions;
-    }
-
-    public Collection<Question> getCollectionsOfQuestions() {
         return questions;
     }
 

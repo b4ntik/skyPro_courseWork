@@ -9,25 +9,38 @@ import java.util.*;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
-    private Set<Question> questions = new HashSet<>();
-
+    private List<Question> questions = new ArrayList<>();
+    //private Random random = new Random();
+    //private Question question;
+    private JavaQuestionService javaQuestionService;
     public ExaminerServiceImpl() {
     }
 
-    //только из-за того, что в интерфейсе эти методы есть
-    @Override
-    public boolean checkCorrectAnswer(String userAnswer) {
-        return false;
+    public List<Question> getQuestions(int amount) {
+        int index = questions.size();
+        if(amount>index){
+            throw new ThereIsNotQuestionError();
+        }
+        List<Question> questionList = new ArrayList<>(questions);
+        for(int i = 0; i <=amount; i++){
+            questionList.add(getRandomQuestion());
+                    }
+
+
+        return questionList;
     }
 
-    @Override
-    public boolean equals(Question question) {
-        return false;
-    }
 
-    @Override
-    public Question getRandomQuestion(int amount) {
-        return null;
+    public Question getRandomQuestion() {
+
+        if (questions == null || questions.isEmpty()) {
+            throw new ThereIsNotQuestionError();
+        }
+        List<Question> randomQuestion = (List<Question>) javaQuestionService.getAllQuestions();
+        Random random = new Random();
+        int randomIndex = random.nextInt(randomQuestion.size());
+
+        return randomQuestion.get(randomIndex);
     }
 
 }
