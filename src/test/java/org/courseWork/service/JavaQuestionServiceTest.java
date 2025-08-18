@@ -53,7 +53,7 @@ class JavaQuestionServiceTest {
 
         assertEquals("404 вопрос отсутствует", exception.getMessage());
     }
-    @Test
+   @Test
     void testGetRandomQuestions_EmptyCollection(){
         javaQuestionService.clearQuestions();
 
@@ -63,7 +63,7 @@ class JavaQuestionServiceTest {
 
     @Test
     void testGetRandomQuestions_Success() {
-
+        javaQuestionService.clearQuestions();
         Question question1 = new Question("Сколько будет 3+3?", "6");
         Question question2 = new Question("Смысл жизни?", "42");
         //добавил логирования для отлова бага в неработающем тесте

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
     public class JavaQuestionService implements QuestionService{
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 
     public void removeQuestion(String questionForRemoving) {
 
-        if (questions == null) {
+        if (questions == null || questions.isEmpty() || questionForRemoving ==null) {
             throw new ThereIsNotQuestionError();
         }
         questions = questions.stream()
@@ -82,11 +83,15 @@ import java.util.stream.Collectors;
         if (questions == null || questions.isEmpty()) {
             throw new ThereIsNotQuestionError();
         }
-        List<Question> randomQuestion = (List<Question>) getAllQuestions();
-        Random random = new Random();
-        int randomIndex = random.nextInt(randomQuestion.size());
 
-        return randomQuestion.get(randomIndex);
+        Stream<Question> stream = questions.stream();
+        Optional<Question> randomQuestion = stream.findAny();
+        if (randomQuestion.isPresent()) {
+            return randomQuestion.get();
+        } else {
+            throw new ThereIsNotQuestionError();
+        }
+
     }
 
     public void clearQuestions() {
