@@ -36,13 +36,7 @@ class ExaminerServiceImplTest {
         assertTrue(questions.stream().anyMatch(q -> q.getQuestion().equals("Кто написал 'Идиот'? (Фамилия автора)")));
     }
 
-@Test
-void testGetRandomQuestions_EmptyCollection(){
-        javaQuestionService.clearQuestions();
 
-        assertThrows(ThereIsNotQuestionError.class, () ->
-                examinerService.getRandomQuestion());
-}
     @Test
     void testGetCollectionsOfQuestions() {
         Collection<Question> questions = javaQuestionService.getAllQuestions();

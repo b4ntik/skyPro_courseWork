@@ -53,7 +53,13 @@ class JavaQuestionServiceTest {
 
         assertEquals("404 вопрос отсутствует", exception.getMessage());
     }
+    @Test
+    void testGetRandomQuestions_EmptyCollection(){
+        javaQuestionService.clearQuestions();
 
+        assertThrows(ThereIsNotQuestionError.class, () ->
+                javaQuestionService.getRandomQuestion());
+    }
 
     @Test
     void testGetRandomQuestions_Success() {

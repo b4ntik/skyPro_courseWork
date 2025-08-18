@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 @Service
     public class JavaQuestionService implements QuestionService{
     private Set<Question> questions = new HashSet<>();
-
     private Question question;
     private Question currentQuestion;
 
@@ -77,6 +76,17 @@ import java.util.stream.Collectors;
         questions.add(q3);
 
         return questions;
+    }
+    public Question getRandomQuestion() {
+
+        if (questions == null || questions.isEmpty()) {
+            throw new ThereIsNotQuestionError();
+        }
+        List<Question> randomQuestion = (List<Question>) getAllQuestions();
+        Random random = new Random();
+        int randomIndex = random.nextInt(randomQuestion.size());
+
+        return randomQuestion.get(randomIndex);
     }
 
     public void clearQuestions() {
