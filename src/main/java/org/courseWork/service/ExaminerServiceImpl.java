@@ -20,7 +20,7 @@ public class ExaminerServiceImpl implements ExaminerService {
         if(amount>index){
             throw new ThereIsNotQuestionError();
         }
-        List<Question> questionList = new ArrayList<>(javaQuestionService.getAllQuestions());
+        List<Question> questionList = new ArrayList<>();
         for(int i = 0; i <=amount; i++){
             questionList.add(javaQuestionService.getRandomQuestion());
                     }
